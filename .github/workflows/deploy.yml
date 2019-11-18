@@ -37,7 +37,7 @@ jobs:
         KUBECONFIG: kubeconfig.yaml
     - name: Check
       run: |
-        while [ "$(curl -H 'Host: graph.ykzts.sexy' -s -o /dev/null -w '%{http_code}' http://$(KUBECONFIG=$(pwd)/kubeconfig.yaml kubectl get ingress graph -o 'jsonpath={.status.loadBalancer.ingress[].ip}')/api/health)" != "200" ]
+        while [ "$(curl -H 'Host: graph.ykzts.sexy' -s -o /dev/null -w '%{http_code}' http://$(kubectl get ingress graph -o 'jsonpath={.status.loadBalancer.ingress[].ip}')/api/health)" != "200" ]
         do
           sleep 10
         done
