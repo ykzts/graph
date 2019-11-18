@@ -32,11 +32,15 @@ jobs:
         tar xf kustomize.tar.gz
         sudo install kustomize /usr/local/bin
     - name: Deploy
-      run: KUBECONFIG=$(pwd)/kubeconfig.yaml skaffold run
+      run: skaffold run
+      env:
+        KUBECONFIG: kubeconfig.yaml
     - name: Check
       run: |
-        while [ "$(curl -H 'Host: graph.ykzts.sexy' -s -o /dev/null -w '%{http_code}' http://172.18.0.3/api/health)" != "200" ]
+        while [ "$(curl -H 'Host: graph.ykzts.sexy' -s -o /dev/null -w '%{http_code}' http://$(KUBECONFIG=$(pwd)/kubeconfig.yaml kubectl get ingress graph -o 'jsonpath={.status.loadBalancer.ingress[].ip}')/api/health)" != "200" ]
         do
           sleep 10
         done
+      env:
+        KUBECONFIG: kubeconfig.yaml
       timeout-minutes: 5
