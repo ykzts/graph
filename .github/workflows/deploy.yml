@@ -33,15 +33,10 @@ jobs:
         sudo install kustomize /usr/local/bin
     - name: Deploy
       run: KUBECONFIG=$(pwd)/kubeconfig.yaml skaffold run
-    # - name: Check
-    #   run: |
-    #     while [ "$(curl -H 'Host: graph.ykzts.sexy' -s -o /dev/null -w '%{http_code}' http://localhost/api/health)" != "200" ]
-    #     do
-    #       sleep 10
-    #     done
-    #   timeout-minutes: 5
-    - run: |
-        sleep 120
-        KUBECONFIG=$(pwd)/kubeconfig.yaml kubectl get pods
-        KUBECONFIG=$(pwd)/kubeconfig.yaml kubectl get service
-        KUBECONFIG=$(pwd)/kubeconfig.yaml kubectl describe ingress
+    - name: Check
+      run: |
+        while [ "$(curl -H 'Host: graph.ykzts.sexy' -s -o /dev/null -w '%{http_code}' http://172.18.0.3/api/health)" != "200" ]
+        do
+          sleep 10
+        done
+      timeout-minutes: 5
