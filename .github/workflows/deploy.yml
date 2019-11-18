@@ -1,0 +1,47 @@
+name: Deploy to k3s
+
+on:
+  pull_request:
+    branches:
+    - master
+  push:
+    branches:
+    - master
+    tags:
+    - '!*'
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Launch k3s
+      run: |
+        docker-compose up -d
+        sleep 30
+    - name: Installing Skaffold
+      run: |
+        curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+        chmod +x skaffold
+        sudo install skaffold /usr/local/bin
+    - name: Installing Kustomize
+      run: |
+        curl -Lo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv3.4.0/kustomize_v3.4.0_linux_amd64.tar.gz
+        tar xf kustomize.tar.gz
+        sudo install kustomize /usr/local/bin
+    - name: Deploy
+      run: KUBECONFIG=$(pwd)/kubeconfig.yaml skaffold run
+    # - name: Check
+    #   run: |
+    #     while [ "$(curl -H 'Host: graph.ykzts.sexy' -s -o /dev/null -w '%{http_code}' http://localhost/api/health)" != "200" ]
+    #     do
+    #       sleep 10
+    #     done
+    #   timeout-minutes: 5
+    - run: |
+        sleep 120
+        KUBECONFIG=$(pwd)/kubeconfig.yaml kubectl get pods
+        KUBECONFIG=$(pwd)/kubeconfig.yaml kubectl get service
+        KUBECONFIG=$(pwd)/kubeconfig.yaml kubectl describe ingress
