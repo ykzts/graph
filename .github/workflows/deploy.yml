@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Launch k3s
       run: |
-        docker-compose up -d -f k3s/docker-compose.yml
+        docker-compose -f k3s/docker-compose.yml up -d
         sleep 30
     - name: Installing Skaffold
       run: |
