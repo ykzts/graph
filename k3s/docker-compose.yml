@@ -11,7 +11,7 @@ services:
     #- 80:80
     - 6443:6443
     volumes:
-    - .:/output
+    - ..:/output
   k3s-node:
     depends_on:
     - k3s-server
