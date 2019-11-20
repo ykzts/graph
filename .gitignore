@@ -1,3 +1,2 @@
-/data/
-/.env
-/service-account-key.json
+/kubeconfig.yaml
+/tags.json

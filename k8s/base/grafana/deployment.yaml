@@ -23,6 +23,9 @@ spec:
           value: http://grafana-image-renderer:8081/render
         - name: GF_SNAPSHOTS_EXTERNAL_ENABLED
           value: "false"
+        resources:
+          limits:
+            memory: 128Mi
         ports:
         - containerPort: 3000
         volumeMounts:

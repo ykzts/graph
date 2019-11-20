@@ -16,6 +16,9 @@ spec:
       containers:
       - name: blackbox-exporter
         image: prom/blackbox-exporter:v0.16.0
+        resources:
+          limits:
+            memory: 64Mi
         ports:
         - containerPort: 9115
         livenessProbe:

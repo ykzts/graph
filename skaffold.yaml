@@ -3,6 +3,7 @@ kind: Config
 metadata:
   name: graph
 deploy:
+  statusCheckDeadlineSeconds: 300
   kustomize:
     path: k8s/overlays/development
 profiles:

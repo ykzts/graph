@@ -31,16 +31,20 @@ jobs:
         curl -Lo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv3.4.0/kustomize_v3.4.0_linux_amd64.tar.gz
         tar xf kustomize.tar.gz
         sudo install kustomize /usr/local/bin
+    - name: Build
+      run: skaffold build --file-output=tags.json
+      env:
+        KUBECONFIG: kubeconfig.yaml
     - name: Deploy
-      run: skaffold run
+      run: skaffold deploy --build-artifacts=tags.json --status-check
       env:
         KUBECONFIG: kubeconfig.yaml
     - name: Check
       run: |
-        while [ "$(curl -H 'Host: graph.ykzts.sexy' -s -o /dev/null -w '%{http_code}' http://$(kubectl get ingress graph -o 'jsonpath={.status.loadBalancer.ingress[].ip}')/api/health)" != "200" ]
-        do
-          sleep 10
-        done
+        test "$(curl \
+          -H 'Host: graph.ykzts.sexy' \
+          -m 60 \
+          -s -o /dev/null -w '%{http_code}' \
+          http://$(kubectl get ingress graph -o 'jsonpath={.status.loadBalancer.ingress[].ip}')/api/health)" == "200"
       env:
         KUBECONFIG: kubeconfig.yaml
-      timeout-minutes: 5

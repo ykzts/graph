@@ -21,6 +21,9 @@ spec:
         - --storage.tsdb.no-lockfile
         - --storage.tsdb.path=/prometheus
         - --storage.tsdb.retention.time=365d
+        resources:
+          limits:
+            memory: 64Mi
         ports:
         - containerPort: 9090
         volumeMounts:
@@ -41,7 +44,6 @@ spec:
             path: /-/ready
           initialDelaySeconds: 10
           periodSeconds: 5
-      serviceAccountName: prometheus
       volumes:
       - name: prometheus-persistent-storage
         persistentVolumeClaim:
