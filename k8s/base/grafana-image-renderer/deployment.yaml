@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: grafana-image-renderer
-        image: grafana/grafana-image-renderer:1.0.5
+        image: grafana/grafana-image-renderer:1.0.9
         resources:
           limits:
             memory: 128Mi
