@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: grafana
-        image: grafana/grafana:6.7.2
+        image: grafana/grafana:6.7.3
         env:
         - name: GF_RENDERING_CALLBACK_URL
           value: http://grafana:3000/
