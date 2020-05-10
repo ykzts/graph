@@ -1,14 +1,15 @@
-apiVersion: skaffold/v1
+apiVersion: skaffold/v2beta3
 kind: Config
 metadata:
   name: graph
 deploy:
   statusCheckDeadlineSeconds: 300
   kustomize:
-    path: k8s/overlays/development
+    paths:
+    - k8s/overlays/development
 profiles:
 - name: production
-  patches:
-  - op: replace
-    path: /deploy/kustomize/path
-    value: k8s/overlays/production
+  deploy:
+    kustomize:
+      paths:
+      - k8s/overlays/production
