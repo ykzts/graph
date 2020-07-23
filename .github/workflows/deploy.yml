@@ -3,10 +3,10 @@ name: Deploy to k3s
 on:
   pull_request:
     branches:
-    - master
+    - main
   push:
     branches:
-    - master
+    - main
     tags:
     - '!*'
 
