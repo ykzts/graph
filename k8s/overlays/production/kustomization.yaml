@@ -1,5 +1,9 @@
 bases:
 - ../../base
 
+resources:
+- issuer.yaml
+
 patches:
 - patches/prometheus.yaml
+- patches/ingress.yaml
