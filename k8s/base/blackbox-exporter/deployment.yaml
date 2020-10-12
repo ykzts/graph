@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: blackbox-exporter
-        image: prom/blackbox-exporter:v0.17.0
+        image: prom/blackbox-exporter:v0.18.0
         resources:
           limits:
             memory: 64Mi
