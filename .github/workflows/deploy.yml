@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Launch k3s
       run: |
         docker-compose -f k3s/docker-compose.yml up -d
